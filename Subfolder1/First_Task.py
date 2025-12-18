@@ -77,12 +77,12 @@ def train_momentum(X, y, lr=0.01, epochs=2000, beta=0.9):
         db = np.sum(dZ) / m
 
         # -------- MOMENTUM UPDATE --------
-        vW = beta * vW + (1 - beta) * dW
-        vb = beta * vb + (1 - beta) * db
+        vW = beta * vW + lr * dW
+        vb = beta * vb + lr * db
 
         # Update parameters
-        W -= lr * vW
-        b -= lr * vb
+        W -= vW
+        b -= vb
 
         # Print progress
         if epoch % 200 == 0:
@@ -138,11 +138,11 @@ while model not in ['v', 'm', 'n']:
     model = input("Invalid choice. Please choose 'v' for VGD, 'm' for Momentum, or 'n' for Nesterov: ").strip().lower()
 
 if model == 'v':
-    W, b = train_vgd(X, y, lr=0.36, epochs=5000)
+    W, b = train_vgd(X, y, lr=1.69, epochs=2000)
 elif model == 'n':
-    W, b = train_nesterov(X, y, lr=0.1, epochs=2000, beta=0.9)  
+    W, b = train_nesterov(X, y, lr=0.2, epochs=2000, beta=0.9)  
 else:
-    W, b = train_momentum(X, y, lr=0.1, epochs=2000, beta=0.9)
+    W, b = train_momentum(X, y, lr=0.2, epochs=2000, beta=0.9)
 
 with open("movie_test_data.csv", "r") as file:
     reader = csv.reader(file)
